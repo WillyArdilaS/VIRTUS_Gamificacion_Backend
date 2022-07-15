@@ -11,6 +11,8 @@ class Server {
         // Rutas
         this.userRoute = '/api/users';
         this.personajeRoute = '/api/personajes';
+        this.claseRoute = '/api/clases';
+        this.actividadRoute = '/api/actividad';
 
         //Conexion base de datos
         this.conectarBD();
@@ -43,6 +45,8 @@ class Server {
         //Middleware para rutas
         this.app.use(this.userRoute, require('../routes/user'));
         this.app.use(this.personajeRoute, require('../routes/personaje'));
+        this.app.use(this.claseRoute, require('../routes/clase'));
+        this.app.use(this.actividadRoute, require('../routes/actividad'));
     }
 
     start() {
