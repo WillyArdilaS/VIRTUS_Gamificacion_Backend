@@ -1,9 +1,9 @@
 const { Schema, model } = require('mongoose')
 
-const SchemaUsuario = Schema({
+const SchemaPersonaje = Schema({
     clase: {
         type: String,
-        required: [true, 'La clase es obligatoria']
+        required: [true, 'La clase del personaje es obligatoria']
     },
     experiencia: {
         type: Number,
@@ -20,12 +20,16 @@ const SchemaUsuario = Schema({
         type: Boolean,
         default: true
     },
-
-    //DESPUES SE METE LA FK
+    //FK de usuario
+    usuarioFK: {
+        type: Schema.Types.ObjectId,
+        ref: 'Usuarios',
+        required: true
+    }
 
 })
 
 
 
 
-module.exports = model('Personajes', SchemaUsuario);
+module.exports = model('Personajes', SchemaPersonaje);

@@ -8,7 +8,9 @@ class Server {
     constructor() {
         this.app = express();
         this.port = process.env.PORT;
+        // Rutas
         this.userRoute = '/api/users';
+        this.personajeRoute = '/api/personajes';
 
         //Conexion base de datos
         this.conectarBD();
@@ -40,6 +42,7 @@ class Server {
     routes() {
         //Middleware para rutas
         this.app.use(this.userRoute, require('../routes/user'));
+        this.app.use(this.personajeRoute, require('../routes/personaje'));
     }
 
     start() {
