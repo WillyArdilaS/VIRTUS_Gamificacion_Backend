@@ -9,6 +9,7 @@ class Server {
         this.app = express();
         this.port = process.env.PORT;
         // Rutas
+        this.authRoute = '/api/auth';
         this.userRoute = '/api/users';
         this.personajeRoute = '/api/personajes';
         this.claseRoute = '/api/clases';
@@ -43,6 +44,7 @@ class Server {
 
     routes() {
         //Middleware para rutas
+        this.app.use(this.authRoute, require('../routes/auth'));
         this.app.use(this.userRoute, require('../routes/user'));
         this.app.use(this.personajeRoute, require('../routes/personaje'));
         this.app.use(this.claseRoute, require('../routes/clase'));
