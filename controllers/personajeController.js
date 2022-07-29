@@ -3,7 +3,19 @@ var bcrypt = require('bcryptjs');
 
 const Personaje = require('../models/Personaje')
 
-const personajeGET = () => {
+const personajeGET = async (req = request, res = response) => {
+
+    const query = { estado: true }
+
+    const [contarPersonajes, personajesBD] = await Promise.all([
+        Personaje.countDocuments(query),
+        Personaje.find(query)]);
+
+    res.status(200).json({
+        msg: 'Get API',
+        contarPersonajes,
+        personajesBD
+    })
 
 }
 const personajePUT = async (req = request, res = response) => {
@@ -13,7 +25,7 @@ const personajePUT = async (req = request, res = response) => {
 
 }
 const personajePOST = async (req = request, res = response) => {
-    
+
     const clase = req.body.clase.toUpperCase();
     const usuarioFK = req.body.usuarioFK;
 
@@ -22,7 +34,7 @@ const personajePOST = async (req = request, res = response) => {
         clase,
         usuarioFK
     }
-    
+
     //Instancia del esquema
     const personaje = new Personaje(data)
 

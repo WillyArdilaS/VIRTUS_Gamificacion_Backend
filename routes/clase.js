@@ -1,17 +1,22 @@
 const { Router } = require("express");
 const { check } = require("express-validator");
-const { clasePOST } = require("../controllers/claseController");
+const { clasePOST, claseGET } = require("../controllers/claseController");
 const { ExisteID_BD } = require("../helpers/db-validator");
 const { validarJWT } = require("../middlewares/validarJWT");
+const { esProfesorRol } = require("../middlewares/validarRoles");
 
 const { validarUsuario } = require("../middlewares/validarUsuarios");
 const router = Router();
 
+//GET
+router.get('/', claseGET);
+
 //POST
 router.post('/', [
-    //Validación del rol que quiere acceder a la ruta
+    //Validación del JWT que quiere acceder a la ruta
     validarJWT,
-
+    //Validación del rol que quiere acceder a la ruta
+    esProfesorRol,
 
     check('nombre', 'El nombre es obligatorio').notEmpty(),
     check('descripcion', 'La descripción es obligatorio').notEmpty(),

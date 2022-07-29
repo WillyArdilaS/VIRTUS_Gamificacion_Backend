@@ -2,6 +2,21 @@ const { response, request } = require('express');
 
 const Clase = require('../models/Clase');
 
+const claseGET = async (req = request, res = response) => {
+    const query = { estado: true };
+
+    const [contarClases, clasesBD] = await Promise.all([
+        Clase.countDocuments(query),
+        Clase.find(query)]);
+
+
+    res.status(200).json({
+        msg: 'Get API',
+        contarClases,
+        clasesBD
+    })
+}
+
 const clasePOST = async (req = request, res = response) => {
     const {nombre, descripcion, usuarioProfesorFK} = req.body;
 
@@ -21,4 +36,5 @@ const clasePOST = async (req = request, res = response) => {
 
 module.exports = {
     clasePOST,
+    claseGET
 }
