@@ -7,12 +7,15 @@ const clasePOST = async (req = request, res = response) => {
 
     const clase = new Clase({nombre, descripcion, usuarioProfesorFK});
 
+    usuarioAutenticado = req.usuario;
+
     //Guardamos en BD
     await clase.save();
 
     res.status(201).json({
         msg: 'Post API',
-        clase
+        clase,
+        usuarioAutenticado
     })
 }
 
