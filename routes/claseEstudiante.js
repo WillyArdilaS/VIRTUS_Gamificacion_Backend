@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const { check } = require("express-validator");
-const { claseEstudiantePOST } = require("../controllers/claseEstudianteController");
+const { claseEstudiantePOST, claseEstudianteGET } = require("../controllers/claseEstudianteController");
 const { ExisteID_BD, ExisteID_Clase } = require("../helpers/db-validator");
 
 const { validarUsuario } = require("../middlewares/validarUsuarios");
@@ -18,5 +18,13 @@ router.post('/',[
     validarUsuario
 
 ] ,claseEstudiantePOST);
+
+router.get('/',[
+    check('idEstudiante','El ID del estudiante es obligatorio').notEmpty(),
+    check('idEstudiante','El ID del estudiante no es una key valida de mongo').isMongoId(),    
+
+    validarUsuario
+], claseEstudianteGET);
+
 
 module.exports = router;
