@@ -19,7 +19,7 @@ router.post('/',[
 
 ] ,claseEstudiantePOST);
 
-router.get('/',[
+router.post('/claseEstudianteGET',[
     check('idEstudiante','El ID del estudiante es obligatorio').notEmpty(),
     check('idEstudiante','El ID del estudiante no es una key valida de mongo').isMongoId(),    
 
