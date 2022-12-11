@@ -12,7 +12,7 @@ const router = Router();
 router.get('/', personajeGET);
 
 //PUT - Crear nuevo personaje
-router.put('/:id', personajePUT);
+router.put('/', personajePUT);
 
 //POST
 router.post('/', [

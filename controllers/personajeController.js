@@ -19,8 +19,14 @@ const personajeGET = async (req = request, res = response) => {
 
 }
 const personajePUT = async (req = request, res = response) => {
+
+    const {_id, ...resto} = req.body;
+
+    const updatePersonajeBD = await Personaje.findByIdAndUpdate(_id, resto);
+
     res.status(200).json({
         mensaje: 'PUT',
+        updatePersonajeBD
     })
 
 }
