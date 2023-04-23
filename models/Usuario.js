@@ -30,16 +30,11 @@ const SchemaUsuario = Schema({
         type: Boolean,
         default: true
     },
-
 })
-
 
 SchemaUsuario.methods.toJSON = function () {
     const { __v, password, ...usuario } = this.toObject();
     return usuario;
 }
-
-
-
 
 module.exports = model('Usuarios', SchemaUsuario);
