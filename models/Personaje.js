@@ -5,6 +5,13 @@ const SchemaPersonaje = Schema({
         type: String,
         required: [true, 'La clase del personaje es obligatoria']
     },
+    imgUrl: {
+        type: String,
+    },
+    nivel: {
+        type: Number,
+        default: 0
+    },
     experiencia: {
         type: Number,
         default: 0

@@ -4,8 +4,6 @@ var bcrypt = require('bcryptjs');
 const Usuario = require('../models/Usuario');
 
 
-
-
 const userGET = async (req = request, res = response) => {
 
     // const { limiteSuperior = 10, limiteInferior = 0 } = req.query;

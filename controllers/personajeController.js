@@ -33,11 +33,13 @@ const personajePUT = async (req = request, res = response) => {
 const personajePOST = async (req = request, res = response) => {
 
     const clase = req.body.clase.toUpperCase();
+    const imgUrl = req.body.imgUrl;
     const usuarioFK = req.body.usuarioFK;
 
     //Data
     const data = {
         clase,
+        imgUrl,
         usuarioFK
     }
 
@@ -46,7 +48,6 @@ const personajePOST = async (req = request, res = response) => {
 
     //Guaradamos en BD
     await personaje.save();
-
 
     res.status(200).json({
         msg: 'POST',
