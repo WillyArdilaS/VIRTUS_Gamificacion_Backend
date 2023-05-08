@@ -18,9 +18,9 @@ const claseGET = async (req = request, res = response) => {
 }
 
 const clasePOST = async (req = request, res = response) => {
-    const {nombre, descripcion, usuarioProfesorFK} = req.body;
+    const {nombre, codigoGrupo, descripcion, dificultad, usuarioProfesorFK} = req.body;
 
-    const clase = new Clase({nombre, descripcion, usuarioProfesorFK});
+    const clase = new Clase({nombre, codigoGrupo, descripcion, dificultad, usuarioProfesorFK});
 
     usuarioAutenticado = req.usuario;
 

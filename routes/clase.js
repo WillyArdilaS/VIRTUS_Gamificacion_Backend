@@ -19,7 +19,9 @@ router.post('/', [
     esProfesorRol,
 
     check('nombre', 'El nombre es obligatorio').notEmpty(),
+    check('codigoGrupo', 'El codigo del grupo es obligatorio').notEmpty(),
     check('descripcion', 'La descripción es obligatorio').notEmpty(),
+    check('dificultad', 'La dificultad de la clase es obligatoria').notEmpty(),
     check('usuarioProfesorFK', 'La llave foranea es obligatoria').notEmpty(),
     check('usuarioProfesorFK', 'La llave foranea del usuario profesor no es una key de mongo valida').isMongoId(),
     check('usuarioProfesorFK', 'La llave foranea').custom(ExisteID_BD),

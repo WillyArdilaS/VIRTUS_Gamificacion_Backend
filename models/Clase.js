@@ -5,9 +5,17 @@ const SchemaClase = Schema({
         type: String,
         required: [true, 'El nombre de la clase es obligatoria']
     },    
+    codigoGrupo: {
+        type: String,
+        required: [true, 'El codigo del grupo es obligatorio']
+    }, 
     descripcion: {
         type: String,
         required: [true, 'La descripción de la clase es obligatoria']
+    },
+    dificultad: {
+        type: String,
+        required: [true, 'La dificultad de la clase es obligatoria']
     },
     estado: {
         type: Boolean,
