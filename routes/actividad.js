@@ -19,6 +19,7 @@ router.post('/', [
     check('recompensa', 'El valor de la recompensa es obligatorio').notEmpty(),
     check('castigo', 'El valor del castigo es obligatorio').notEmpty(),
     check('descripcion', 'La descripción es obligatoria').notEmpty(),
+    check('dificultad', 'La dificultad de la clase es obligatoria').notEmpty(),
     check('claseFK', 'La llave foranea de la clase es obligatoria').notEmpty(),
     check('claseFK', 'La llave foranea de la clase no es una key valida de mongo').isMongoId(),
     check('claseFK', 'La llave foranea de la clase no existe').custom(ExisteID_Clase),

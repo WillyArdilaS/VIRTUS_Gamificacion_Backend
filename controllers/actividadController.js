@@ -18,9 +18,9 @@ const actividadGET = async (req = request, res = response) => {
 } 
 
 const actividadPOST = async (req = request, res = response) => {
-    const {fechaVencimiento, recompensa, castigo, descripcion, claseFK} = req.body;
+    const {fechaVencimiento, recompensa, castigo, descripcion, dificultad, claseFK} = req.body;
 
-    const actividad = new Actividad({fechaVencimiento, recompensa, castigo, descripcion, claseFK});
+    const actividad = new Actividad({fechaVencimiento, recompensa, castigo, descripcion, dificultad, claseFK});
 
     usuarioAutenticado = req.usuario;
 
