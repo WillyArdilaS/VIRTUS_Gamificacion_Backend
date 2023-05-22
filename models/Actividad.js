@@ -17,6 +17,10 @@ const SchemaActividad = Schema({
         type: String,
         required: [true, 'La descripción de la clase es obligatoria']
     },
+    disponible: {
+        type: Boolean,
+        default: false
+    },
     pendiente: {
         type: Boolean,
         default: true
