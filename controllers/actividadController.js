@@ -22,7 +22,6 @@ const actividadPOST = async (req = request, res = response) => {
     const {fechaVencimiento, recompensa, castigo, descripcion, dificultad, claseFK} = req.body;
 
     const actividad = new Actividad({fechaVencimiento, recompensa, castigo, descripcion, dificultad, claseFK});
-    console.log(actividad)
     usuarioAutenticado = req.usuario;
 
     //Guardamos en BD
@@ -36,8 +35,9 @@ const actividadPOST = async (req = request, res = response) => {
 }
 
 const actualizarDisponibilidadActividades = async (actividades) => {
+    const fechaActual = new Date();
     for (const actividad of actividades) {
-        if (actividad.disponible && new Date(actividad.fechaVencimiento) <= new Date()) {
+        if (actividad.disponible && new Date(actividad.fechaVencimiento) < fechaActual) {
             await Actividad.findByIdAndUpdate(actividad._id, { disponible: false });
         }
     }

@@ -25,10 +25,6 @@ const SchemaActividad = Schema({
         type: Boolean,
         default: true
     },
-    pendiente: {
-        type: Boolean,
-        default: true
-    },
     //FK de la clase
     claseFK: {
         type: Schema.Types.ObjectId,
