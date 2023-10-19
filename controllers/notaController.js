@@ -1,8 +1,8 @@
 const { response, request } = require('express');
-const Actividad = require('../models/Actividad');
+const Actividad = require('../models/Nota');
 
 
-const actividadGET = async (req = request, res = response) => {
+const notaGET = async (req = request, res = response) => {
     const query = { estado: true }
 
     const [contarActividades, actividadesBD] = await Promise.all([
@@ -15,22 +15,6 @@ const actividadGET = async (req = request, res = response) => {
         msg: 'Get API',
         contarActividades,
         actividadesBD
-    })
-} 
-
-
-const actividadIdGET = async (req = request, res = response) => {
-    const { id } = req.body
-
-    const actividad = await Actividad.findOne({ id });
-    if (!actividad) {
-        return res.status(400).json({
-            msg: 'La actividad no existe en la BD',
-        });
-    }
-
-    res.status(200).json({
-        actividad
     })
 } 
 
@@ -60,7 +44,6 @@ const actualizarDisponibilidadActividades = async (actividades) => {
 };
 
 module.exports = {
-    actividadPOST,
-    actividadIdGET,
+    notaGET,
     actividadGET
 }

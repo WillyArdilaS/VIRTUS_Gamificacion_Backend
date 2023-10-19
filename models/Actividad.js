@@ -1,6 +1,10 @@
 const { Schema, model } = require('mongoose')
 
 const SchemaActividad = Schema({
+    nombre: {
+        type: String,
+        required: [true, 'El nombre de la actividad es obligatorio']
+    },
     fechaVencimiento: {
         type: Date,
         required: [true, 'La fecha de nacimiento es obligatorio']
@@ -33,8 +37,5 @@ const SchemaActividad = Schema({
     }
 
 })
-
-
-
 
 module.exports = model('Actividades', SchemaActividad);
