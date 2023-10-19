@@ -18,10 +18,26 @@ const actividadGET = async (req = request, res = response) => {
     })
 } 
 
-const actividadPOST = async (req = request, res = response) => {
-    const {fechaVencimiento, recompensa, castigo, descripcion, dificultad, claseFK} = req.body;
 
-    const actividad = new Actividad({fechaVencimiento, recompensa, castigo, descripcion, dificultad, claseFK});
+const actividadIdGET = async (req = request, res = response) => {
+    const { id } = req.body
+
+    const actividad = await Actividad.findOne({ id });
+    if (!actividad) {
+        return res.status(400).json({
+            msg: 'La actividad no existe en la BD',
+        });
+    }
+
+    res.status(200).json({
+        actividad
+    })
+} 
+
+const actividadPOST = async (req = request, res = response) => {
+    const {nombre, fechaVencimiento, recompensa, castigo, descripcion, dificultad, claseFK} = req.body;
+
+    const actividad = new Actividad({nombre, fechaVencimiento, recompensa, castigo, descripcion, dificultad, claseFK});
     usuarioAutenticado = req.usuario;
 
     //Guardamos en BD
@@ -45,5 +61,6 @@ const actualizarDisponibilidadActividades = async (actividades) => {
 
 module.exports = {
     actividadPOST,
+    actividadIdGET,
     actividadGET
 }
