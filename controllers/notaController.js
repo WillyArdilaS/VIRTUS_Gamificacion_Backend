@@ -45,9 +45,31 @@ const obtenerNotasPorActividad = async (req = request, res = response) => {
     }
 };
 
+const guardarNota = async (req = request, res = response) => {
+    try {
+        const { valor, usuarioEstudianteFK, claseFK } = req.body;
+
+        const nota = new Nota({ valor, usuarioEstudianteFK, claseFK });
+
+        await nota.save();
+
+        res.status(201).json({
+            msg: 'Nota guardada correctamente',
+            nota
+        });
+    } catch (error) {
+        console.error('Error al guardar la nota:', error);
+        res.status(500).json({
+            msg: 'Error al guardar la nota',
+            error: error.message
+        });
+    }
+};
+
 module.exports = {
     obtenerNotasPorUsuarioYActividad,
-    obtenerNotasPorActividad
+    obtenerNotasPorActividad,
+    guardarNota
 };
 
 
