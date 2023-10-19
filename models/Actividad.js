@@ -23,7 +23,7 @@ const SchemaActividad = Schema({
     },
     disponible: {
         type: Boolean,
-        default: false
+        default: true
     },
     pendiente: {
         type: Boolean,

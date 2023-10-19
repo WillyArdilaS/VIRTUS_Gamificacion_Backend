@@ -9,6 +9,9 @@ const actividadGET = async (req = request, res = response) => {
         Actividad.countDocuments(query),
         Actividad.find(query)]);
 
+    // Verificar y actualizar la disponibilidad
+    await actualizarDisponibilidadActividades(actividadesBD);
+
 
     res.status(200).json({
         msg: 'Get API',
@@ -33,6 +36,18 @@ const actividadPOST = async (req = request, res = response) => {
         usuarioAutenticado
     })
 }
+
+const actualizarDisponibilidadActividades = async (actividades) => {
+    const fechaActual = new Date();
+
+    // Iterar sobre las actividades y actualizar la disponibilidad según la fecha de vencimiento
+    for (const actividad of actividades) {
+        if (actividad.disponible && actividad.fechaVencimiento <= fechaActual) {
+            // La fecha de vencimiento ha pasado, actualizar la disponibilidad a false
+            await Actividad.findByIdAndUpdate(actividad._id, { disponible: false });
+        }
+    }
+};
 
 module.exports = {
     actividadPOST,
