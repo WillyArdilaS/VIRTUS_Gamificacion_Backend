@@ -71,9 +71,3 @@ module.exports = {
     obtenerNotasPorActividad,
     guardarNota
 };
-
-
-module.exports = {
-    notaIdGET,
-    notaPOST
-}
