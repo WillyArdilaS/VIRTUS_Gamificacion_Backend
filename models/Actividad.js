@@ -7,7 +7,7 @@ const SchemaActividad = Schema({
     },
     fechaVencimiento: {
         type: Date,
-        required: [true, 'La fecha de nacimiento es obligatorio']
+        required: [true, 'La fecha de vencimiento es obligatorio']
     },
     recompensa: {
         type: Number,
