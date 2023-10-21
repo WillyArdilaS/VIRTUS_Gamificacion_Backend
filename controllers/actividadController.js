@@ -9,6 +9,7 @@ const actividadGET = async (req = request, res = response) => {
         Actividad.countDocuments(query),
         Actividad.find(query)]);
 
+    await actualizarDisponibilidadActividades(actividadesBD);
 
     res.status(200).json({
         msg: 'Get API',
@@ -17,11 +18,26 @@ const actividadGET = async (req = request, res = response) => {
     })
 } 
 
+
+const actividadIdGET = async (req = request, res = response) => {
+    const { id } = req.body
+
+    const actividad = await Actividad.findOne({ id });
+    if (!actividad) {
+        return res.status(400).json({
+            msg: 'La actividad no existe en la BD',
+        });
+    }
+
+    res.status(200).json({
+        actividad
+    })
+} 
+
 const actividadPOST = async (req = request, res = response) => {
-    const {fechaVencimiento, recompensa, castigo, descripcion, dificultad, disponible, claseFK} = req.body;
+    const {nombre, fechaVencimiento, recompensa, castigo, descripcion, dificultad, claseFK} = req.body;
 
-    const actividad = new Actividad({fechaVencimiento, recompensa, castigo, descripcion, dificultad, disponible, claseFK});
-
+    const actividad = new Actividad({nombre, fechaVencimiento, recompensa, castigo, descripcion, dificultad, claseFK});
     usuarioAutenticado = req.usuario;
 
     //Guardamos en BD
@@ -34,7 +50,17 @@ const actividadPOST = async (req = request, res = response) => {
     })
 }
 
+const actualizarDisponibilidadActividades = async (actividades) => {
+    const fechaActual = new Date();
+    for (const actividad of actividades) {
+        if (actividad.disponible && new Date(actividad.fechaVencimiento) < fechaActual) {
+            await Actividad.findByIdAndUpdate(actividad._id, { disponible: false });
+        }
+    }
+};
+
 module.exports = {
     actividadPOST,
+    actividadIdGET,
     actividadGET
 }
