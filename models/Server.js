@@ -15,6 +15,7 @@ class Server {
         this.claseRoute = '/api/clases';
         this.claseEstudianteRoute = '/api/clasesEstudiante';
         this.actividadRoute = '/api/actividad';
+        this.notaRoute = '/api/nota';
 
         //Conexion base de datos
         this.conectarBD();
@@ -51,6 +52,7 @@ class Server {
         this.app.use(this.claseRoute, require('../routes/clase'));
         this.app.use(this.claseEstudianteRoute, require('../routes/claseEstudiante'));
         this.app.use(this.actividadRoute, require('../routes/actividad'));
+        this.app.use(this.notaRoute, require('../routes/nota'));
     }
 
     start() {
