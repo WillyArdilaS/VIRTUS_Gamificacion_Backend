@@ -18,20 +18,26 @@ const claseGET = async (req = request, res = response) => {
 }
 
 const clasePOST = async (req = request, res = response) => {
-    const {nombre, codigoGrupo, descripcion, dificultad, usuarioProfesorFK} = req.body;
+    const { nombre, codigoGrupo, descripcion, dificultad, usuarioProfesorFK } = req.body;
 
-    const clase = new Clase({nombre, codigoGrupo, descripcion, dificultad, usuarioProfesorFK});
+    const existingClase = await Clase.findOne({ codigoGrupo });
+
+    if (existingClase) {
+        return res.status(400).json({ error: 'El código de grupo ya existe' });
+    }
+
+    const clase = new Clase({ nombre, codigoGrupo, descripcion, dificultad, usuarioProfesorFK });
 
     usuarioAutenticado = req.usuario;
 
-    //Guardamos en BD
+    // Guardamos en BD
     await clase.save();
 
     res.status(201).json({
         msg: 'Post API',
         clase,
-        usuarioAutenticado
-    })
+        usuarioAutenticado,
+    });
 }
 
 module.exports = {
