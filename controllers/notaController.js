@@ -7,8 +7,8 @@ const obtenerNotaPorUsuarioYActividad = async (req = request, res = response) =>
         const { idUsuario, idActividad } = req.params;
 
         const nota = await Nota.findOne({
-            idUsuario,
-            idActividad
+            "usuarioEstudianteFK": idUsuario,
+            "actividadFK" : idActividad
         });
         const valorEncontrado = nota.valor
         res.status(200).json({
@@ -28,7 +28,7 @@ const obtenerNotasPorActividad = async (req = request, res = response) => {
     try {
         const { idActividad } = req.params;
 
-        const notas = await Nota.find({ idActividad })
+        const notas = await Nota.find({ "actividadFK" : idActividad })
         console.log(notas)
         if (notas.length > 0) {
             res.status(200).json({
