@@ -1,10 +1,11 @@
 const { response, request } = require('express');
+
 const Nota = require('../models/Nota');
 
 
 const obtenerNotaPorUsuarioYActividad = async (req = request, res = response) => {
     try {
-        const { idUsuario, idActividad } = req.params;
+        const { idUsuario, idActividad } = req.query;
 
         const nota = await Nota.findOne({
             "usuarioEstudianteFK": idUsuario,
@@ -19,17 +20,22 @@ const obtenerNotaPorUsuarioYActividad = async (req = request, res = response) =>
         console.error('Error al obtener las nota:', error);
         res.status(500).json({
             msg: 'Error al obtener las nota',
-            error: error.message
         });
     }
 };
 
 const obtenerNotasPorActividad = async (req = request, res = response) => {
     try {
-        const { idActividad } = req.params;
+        const { idActividad } = req.query;
 
-        const notas = await Nota.find({ "actividadFK" : idActividad })
-        console.log(notas)
+        if (!idActividad) {
+            return res.status(400).json({
+                msg: 'El parámetro idActividad es requerido en Query Params.'
+            });
+        }
+
+        const notas = await Nota.find({ "actividadFK":idActividad });
+        
         if (notas.length > 0) {
             res.status(200).json({
                 msg: 'Notas obtenidas correctamente',
@@ -41,10 +47,8 @@ const obtenerNotasPorActividad = async (req = request, res = response) => {
             });
         }
     } catch (error) {
-        console.error('Error al obtener las notas por actividad:', error);
         res.status(500).json({
             msg: 'Error al obtener las notas por actividad',
-            error: error.message
         });
     }
 };
