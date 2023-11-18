@@ -57,8 +57,38 @@ const claseEstudianteGET = async (req = request, res = response) => {
     })
 }
 
+const claseEstudianteGETResumido = async (req, res) => {
+    const { idEstudiante } = req.body;
+
+    try {
+        // Obtenemos los registros filtrados de la tabla de rompimiento
+        const [contarClases, clasesBD] = await Promise.all([
+            ClaseEstudiante.countDocuments({ usuarioEstudianteFK: idEstudiante }),
+            ClaseEstudiante.find({ usuarioEstudianteFK: idEstudiante })
+        ]);
+
+        // Filtramos todos los códigos de las clases a los que pertenece el estudiante
+        const IDClase = clasesBD.map((clase) => clase.claseFK);
+
+        // Traemos solo los campos 'nombre' y 'codigoGrupo' de estas clases
+        const infoClasesBD = await Clase.find({ _id: { $in: IDClase } })
+            .select('nombre codigoGrupo');
+
+        res.status(200).json({
+            msg: 'Get API',
+            contarClases,
+            infoClasesBD
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener las clases del estudiante' });
+    }
+};
+
+
 
 module.exports = {
     claseEstudiantePOST,
-    claseEstudianteGET
+    claseEstudianteGET,
+    claseEstudianteGETResumido
 }

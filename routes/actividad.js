@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const { check } = require("express-validator");
-const { actividadPOST, actividadGET } = require("../controllers/actividadController");
+const { actividadPOST, actividadGET, actividadClaseGET } = require("../controllers/actividadController");
 const { ExisteID_Clase } = require("../helpers/db-validator");
 const { validarJWT } = require("../middlewares/validarJWT");
 const { esProfesorRol } = require("../middlewares/validarRoles");
@@ -27,7 +27,12 @@ router.post('/', [
     validarUsuario
 ],actividadPOST);
 
+router.post('/actividadClase',[
+    check('claseFK', 'La llave foranea de la clase es obligatoria').notEmpty(),
+    check('claseFK', 'La llave foranea de la clase no es una key valida de mongo').isMongoId(),
+    check('claseFK', 'La llave foranea de la clase no existe').custom(ExisteID_Clase),   
 
-
+    validarUsuario
+], actividadClaseGET);
 
 module.exports = router;
