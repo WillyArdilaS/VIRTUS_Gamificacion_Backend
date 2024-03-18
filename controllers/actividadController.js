@@ -65,9 +65,9 @@ const actividadClaseGET = async (req, res) => {
 
 
 const actividadPOST = async (req = request, res = response) => {
-    const {nombre, fechaVencimiento, recompensa, castigo, descripcion, dificultad, claseFK} = req.body;
+    const {nombre, fechaVencimiento, recompensa, castigo, descripcion, dificultad, claseFK, juegoFK} = req.body;
 
-    const actividad = new Actividad({nombre, fechaVencimiento, recompensa, castigo, descripcion, dificultad, claseFK});
+    const actividad = new Actividad({nombre, fechaVencimiento, recompensa, castigo, descripcion, dificultad, claseFK, juegoFK});
     usuarioAutenticado = req.usuario;
 
     //Guardamos en BD

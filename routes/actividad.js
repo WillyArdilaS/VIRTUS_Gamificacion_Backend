@@ -23,7 +23,8 @@ router.post('/', [
     check('claseFK', 'La llave foranea de la clase es obligatoria').notEmpty(),
     check('claseFK', 'La llave foranea de la clase no es una key valida de mongo').isMongoId(),
     check('claseFK', 'La llave foranea de la clase no existe').custom(ExisteID_Clase),
-
+    check('juegoFK', 'La llave foranea del juego es obligatoria').notEmpty(),
+    check('juegoFK', 'La llave foranea del juego no es una key valida de mongo').isMongoId(),
     validarUsuario
 ],actividadPOST);
 

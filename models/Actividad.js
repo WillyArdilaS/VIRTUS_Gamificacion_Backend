@@ -34,8 +34,13 @@ const SchemaActividad = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Clases',
         required: true
+    },
+    // otros campos de Actividad
+    juegoFK: {
+        type: Schema.Types.ObjectId,
+        ref: 'Juegos',
+        required: true
     }
-
 })
 
 module.exports = model('Actividades', SchemaActividad);
