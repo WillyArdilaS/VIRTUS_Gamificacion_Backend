@@ -6,6 +6,7 @@ const {
   juegoIdGET,
   juegoPUT,
   juegoDELETE,
+  generarSopaDeLetras,
 } = require("../controllers/juegoController");
 const { validarJWT } = require("../middlewares/validarJWT");
 const { esProfesorRol } = require("../middlewares/validarRoles");
@@ -45,5 +46,8 @@ router.put(
 
 // DELETE /juego/:id
 router.delete("/:id", [validarJWT, esProfesorRol], juegoDELETE);
+
+// Generar sopa de letras /juego/sopa-letras/:id
+router.get("/sopa-letras/:id", generarSopaDeLetras)
 
 module.exports = router;

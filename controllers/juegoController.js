@@ -1,15 +1,16 @@
-const { response, request } = require('express');
-const { Juego, Crucigrama, Trivia, SopaLetras } = require('../models/Juego');
+const { response, request } = require("express");
+const { Juego, Crucigrama, Trivia, SopaLetras } = require("../models/Juego");
+const { generar } = require("../models/SopaLetras");
 
 const juegoGET = async (req = request, res = response) => {
   try {
     const juegos = await Juego.find();
     res.status(200).json({
-      juegos
+      juegos,
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error al obtener los juegos' });
+    res.status(500).json({ error: "Error al obtener los juegos" });
   }
 };
 
@@ -19,15 +20,15 @@ const juegoIdGET = async (req = request, res = response) => {
     const juego = await Juego.findById(id);
     if (!juego) {
       return res.status(400).json({
-        msg: 'El juego no existe en la BD',
+        msg: "El juego no existe en la BD",
       });
     }
     res.status(200).json({
-      juego
+      juego,
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error al obtener el juego' });
+    res.status(500).json({ error: "Error al obtener el juego" });
   }
 };
 
@@ -36,25 +37,25 @@ const juegoPOST = async (req = request, res = response) => {
   try {
     let juego;
     switch (tipo) {
-      case 'crucigrama':
+      case "crucigrama":
         juego = new Crucigrama(req.body);
         break;
-      case 'preguntas':
+      case "preguntas":
         juego = new Trivia(req.body);
         break;
-      case 'sopa-letras':
+      case "sopa-letras":
         juego = new SopaLetras(req.body);
         break;
       default:
-        return res.status(400).json({ error: 'Tipo de juego no soportado' });
+        return res.status(400).json({ error: "Tipo de juego no soportado" });
     }
     await juego.save();
     res.status(201).json({
-      juego
+      juego,
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error al crear el juego' });
+    res.status(500).json({ error: "Error al crear el juego" });
   }
 };
 
@@ -64,15 +65,15 @@ const juegoPUT = async (req = request, res = response) => {
     const juego = await Juego.findByIdAndUpdate(id, req.body, { new: true });
     if (!juego) {
       return res.status(400).json({
-        msg: 'El juego no existe en la BD',
+        msg: "El juego no existe en la BD",
       });
     }
     res.status(200).json({
-      juego
+      juego,
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error al actualizar el juego' });
+    res.status(500).json({ error: "Error al actualizar el juego" });
   }
 };
 
@@ -82,15 +83,36 @@ const juegoDELETE = async (req = request, res = response) => {
     const juego = await Juego.findByIdAndDelete(id);
     if (!juego) {
       return res.status(400).json({
-        msg: 'El juego no existe en la BD',
+        msg: "El juego no existe en la BD",
       });
     }
     res.status(200).json({
-      msg: 'Juego eliminado correctamente'
+      msg: "Juego eliminado correctamente",
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error al eliminar el juego' });
+    res.status(500).json({ error: "Error al eliminar el juego" });
+  }
+};
+
+const generarSopaDeLetras = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const juego = await SopaLetras.findById(id);
+    if (!juego) {
+      return res.status(404).json({ msg: "Juego no encontrado" });
+    }
+
+    const { filas, columnas, palabras } = juego;
+    const words = palabras.map((p) => p.palabra);
+    const sopaDeLetras = generar(filas, columnas, words);
+
+    res.status(200).json(JSON.parse(sopaDeLetras));
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ msg: "Error interno del servidor al generar la sopa de letras" });
   }
 };
 
@@ -99,5 +121,6 @@ module.exports = {
   juegoIdGET,
   juegoPOST,
   juegoPUT,
-  juegoDELETE
+  juegoDELETE,
+  generarSopaDeLetras,
 };
