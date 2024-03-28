@@ -1,5 +1,5 @@
 const { response, request } = require('express');
-const Juego = require('../models/Juego');
+const { Juego, Crucigrama, Trivia, SopaLetras } = require('../models/Juego');
 
 const juegoGET = async (req = request, res = response) => {
   try {
@@ -32,8 +32,22 @@ const juegoIdGET = async (req = request, res = response) => {
 };
 
 const juegoPOST = async (req = request, res = response) => {
+  const { tipo } = req.body;
   try {
-    const juego = new Juego(req.body);
+    let juego;
+    switch (tipo) {
+      case 'crucigrama':
+        juego = new Crucigrama(req.body);
+        break;
+      case 'preguntas':
+        juego = new Trivia(req.body);
+        break;
+      case 'sopa-letras':
+        juego = new SopaLetras(req.body);
+        break;
+      default:
+        return res.status(400).json({ error: 'Tipo de juego no soportado' });
+    }
     await juego.save();
     res.status(201).json({
       juego

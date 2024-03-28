@@ -35,7 +35,6 @@ const SchemaActividad = Schema({
         ref: 'Clases',
         required: true
     },
-    // otros campos de Actividad
     juegoFK: {
         type: Schema.Types.ObjectId,
         ref: 'Juegos',
