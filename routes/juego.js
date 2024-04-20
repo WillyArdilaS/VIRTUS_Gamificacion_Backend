@@ -7,6 +7,7 @@ const {
   juegoPUT,
   juegoDELETE,
   generarSopaDeLetras,
+  generarSopaDeLetrasLatest,
 } = require("../controllers/juegoController");
 const { validarJWT } = require("../middlewares/validarJWT");
 const { esProfesorRol } = require("../middlewares/validarRoles");
@@ -47,7 +48,12 @@ router.put(
 // DELETE /juego/:id
 router.delete("/:id", [validarJWT, esProfesorRol], juegoDELETE);
 
+// Generar sopa de letras /juego/sopa-letras/latest
+router.get("/sopa-letras/latest", generarSopaDeLetrasLatest)
+
 // Generar sopa de letras /juego/sopa-letras/:id
 router.get("/sopa-letras/:id", generarSopaDeLetras)
+
+
 
 module.exports = router;
