@@ -21,12 +21,14 @@ const Juego = model('Juegos', JuegoBaseSchema);
 
 // Esquemas específicos para los diferentes tipos de juegos
 const CrucigramaSchema = new Schema({
-  filas: Number,
-  columnas: Number,
-  palabras: [{
-    palabra: String,
-    pista: String
-  }]
+  matriz: {
+    type: [[String]],
+    required: true
+  },
+  palabras: {
+    type: [String],
+    required: true
+  }
 });
 const TriviaSchema = new Schema({
   preguntas: [{

@@ -38,6 +38,8 @@ const juegoPOST = async (req = request, res = response) => {
     let juego;
     switch (tipo) {
       case "crucigrama":
+        const palabras = extraerPalabras(req.body.matriz);
+        req.body.palabras = palabras;
         juego = new Crucigrama(req.body);
         break;
       case "preguntas":
@@ -136,6 +138,42 @@ const generarSopaDeLetrasLatest = async (req, res) => {
     res.status(500).json({ msg: "Error interno del servidor al generar la sopa de letras" });
   }
 };
+
+function extraerPalabras(matriz) {
+  const palabras = [];
+  const filas = matriz.length;
+  const columnas = matriz[0].length;
+
+  // Extraer palabras horizontalmente
+  for (let i = 0; i < filas; i++) {
+    let palabra = '';
+    for (let j = 0; j < columnas; j++) {
+      if (matriz[i][j] !== '') {
+        palabra += matriz[i][j];
+      } else {
+        if (palabra.length > 1) palabras.push(palabra);
+        palabra = '';
+      }
+    }
+    if (palabra.length > 1) palabras.push(palabra);
+  }
+
+  // Extraer palabras verticalmente
+  for (let j = 0; j < columnas; j++) {
+    let palabra = '';
+    for (let i = 0; i < filas; i++) {
+      if (matriz[i][j] !== '') {
+        palabra += matriz[i][j];
+      } else {
+        if (palabra.length > 1) palabras.push(palabra);
+        palabra = '';
+      }
+    }
+    if (palabra.length > 1) palabras.push(palabra); 
+  }
+
+  return palabras;
+}
 
 
 module.exports = {
