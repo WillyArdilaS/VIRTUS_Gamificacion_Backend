@@ -1,15 +1,57 @@
 const { Schema, model } = require('mongoose');
 
-const SchemaJuego = Schema({
+const JuegoBaseSchema = new Schema({
   titulo: {
     type: String,
     required: [true, 'El título del juego es obligatorio']
   },
   tipo: {
     type: String,
-    required: [true, 'El tipo de juego es obligatorio']
-  },
-  datos: Schema.Types.Mixed
+    required: [true, 'El tipo de juego es obligatorio'],
+    enum: ['crucigrama', 'preguntas', 'sopa-letras']
+  }
+}, {
+  discriminatorKey: 'tipo',
+  collection: 'juegos',
+  timestamps: true
 });
 
-module.exports = model('Juegos', SchemaJuego);
+const Juego = model('Juegos', JuegoBaseSchema);
+
+
+// Esquemas específicos para los diferentes tipos de juegos
+const CrucigramaSchema = new Schema({
+  matriz: {
+    type: [[String]],
+    required: true
+  },
+  palabras: {
+    type: [String],
+    required: true
+  }
+});
+const TriviaSchema = new Schema({
+  preguntas: [{
+    pregunta: String,
+    opciones: [String],
+    respuesta: String,
+    tiempo: Number
+  }]
+});
+const SopaLetrasSchema = new Schema({
+  filas: Number,
+  columnas: Number,
+  palabras: [{
+    palabra: String
+  }]
+});
+
+
+// Creación de modelos específicos utilizando discriminadores
+const Crucigrama = Juego.discriminator('crucigrama', CrucigramaSchema);
+const Trivia = Juego.discriminator('preguntas', TriviaSchema);
+const SopaLetras = Juego.discriminator('sopa-letras', SopaLetrasSchema);
+
+
+module.exports = { Juego, Crucigrama, Trivia, SopaLetras };
+
